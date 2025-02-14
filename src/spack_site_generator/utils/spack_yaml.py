@@ -2,14 +2,12 @@ import yaml
 from typing import Dict, Any
 
 
-def convert_to_spack_yaml(
-        yaml_data: Dict[str, Any]
-) -> str:
+def convert_to_spack_yaml(yaml_data: Dict[str, Any]) -> str:
     """
     Convert a dictionary to a YAML-formatted string, applying Spack-specific formatting.
 
-    This function modifies the YAML output by adding double colons (`::`) 
-    to keys that have the attribute `override: true` in their subfields, 
+    This function modifies the YAML output by adding double colons (`::`)
+    to keys that have the attribute `override: true` in their subfields,
     ensuring compatibility with Spack's configuration format.
 
     Args:
@@ -19,22 +17,24 @@ def convert_to_spack_yaml(
         str: The formatted YAML string.
     """
     yaml_lines = yaml.dump(
-        yaml_data,
-        default_flow_style=False,
-        sort_keys=False
+        yaml_data, default_flow_style=False, sort_keys=False
     ).splitlines()
 
     formatted_lines = []
     line_index = 0
 
     while line_index < len(yaml_lines):
-        if (line_index < len(yaml_lines) - 2 and "override: true" in
-                yaml_lines[line_index + 2]):
+        if (
+            line_index < len(yaml_lines) - 2
+            and "override: true" in yaml_lines[line_index + 2]
+        ):
             key = yaml_lines[line_index].split(":")[0]
             formatted_lines.append(f"{key}:: \n{yaml_lines[line_index + 1]}")
             line_index += 3
-        elif (line_index < len(yaml_lines) - 1 and "override: true" in
-              yaml_lines[line_index + 1]):
+        elif (
+            line_index < len(yaml_lines) - 1
+            and "override: true" in yaml_lines[line_index + 1]
+        ):
             key = yaml_lines[line_index].split(":")[0]
             formatted_lines.append(f"{key}::")
             line_index += 2
@@ -45,10 +45,7 @@ def convert_to_spack_yaml(
     return "\n".join(formatted_lines)
 
 
-def to_yaml(
-        yaml_data: Dict[str, Any],
-        spack_format: bool = True
-) -> str:
+def to_yaml(yaml_data: Dict[str, Any], spack_format: bool = True) -> str:
     """
     Convert a dictionary to a YAML-formatted string.
 
@@ -62,7 +59,4 @@ def to_yaml(
     """
     if spack_format:
         return convert_to_spack_yaml(yaml_data)
-    return yaml.dump(yaml_data,
-                     default_flow_style=False,
-                     sort_keys=False
-                     )
+    return yaml.dump(yaml_data, default_flow_style=False, sort_keys=False)

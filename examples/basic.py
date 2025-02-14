@@ -15,71 +15,62 @@ Usage:
     ```
 """
 
-from spack_site_generator import Modules
-from spack_site_generator import Packages
-from spack_site_generator import Compilers
+from pathlib import Path
+
+from spack_site_generator import Site
 
 if __name__ == "__main__":
-    # Initialize package configuration
-    packages = Packages()
+
+    site = Site(name="basic")
 
     # Define MPI provider
-    packages.add_provider(
+    site.packages.add_provider(
         provider_name="mpi",
-        library_name="openmpi",
-        library_version="5.0.5",
+        library_name="mpich",
+        library_version="4.0",
         buildable=False,
     )
 
     # Add compiler to package configuration
-    packages.add_compiler(name="gcc", version="11.4.0")
+    site.packages.add_compiler(name="gcc", version="11.4.0")
 
     # Define OpenMPI package configuration
-    packages.add_package(
-        name="openmpi",
-        spec="openmpi@5.0.5",
+    site.packages.add_package(
+        name="mpich",
+        spec="mpich@4.0",
         buildable=False,
-        prefix="/home/astokely/software/spack-stack/spack/opt/spack"
-               "/linux-ubuntu22.04-skylake/gcc-11.4.0/openmpi-5.0.5-zaxpym3yhy72maxfltpgkwl7mpxztpjn",
-        modules=["openmpi/5.0.5"],
+        prefix="/usr",
+        modules=[],
+        override=False,
     )
 
-    # Write package configuration to file
-    packages.write(filename="packages.yaml")
-
-    # Initialize compiler configuration
-    compilers = Compilers()
-
     # Add GCC compiler configuration
-    compilers.add_compiler(
+    site.compilers.add_compiler(
         spec="gcc@11.4.0",
         paths={
             "cc": "/usr/bin/gcc",
             "cxx": "/usr/bin/g++",
             "f77": "/usr/bin/gfortran",
-            "fc": "/usr/bin/gfortran"
+            "fc": "/usr/bin/gfortran",
         },
         operating_system="ubuntu22.04",
         target="x86_64",
         flags={},
         modules=[],
         environment={},
-        extra_rpaths=[]
+        extra_rpaths=[],
     )
 
-    # Write compiler configuration to file
-    compilers.write(filename="compilers.yaml")
-
-    # Initialize module configuration
-    modules = Modules()
-
     # Configure Lmod module system
-    modules.add_module_type(
+    site.modules.add_module_type(
         module_type="lmod",
         autoload="run",
         hash_length=0,
-        hide_implicits=True
+        hide_implicits=True,
+        include=[],
+        exclude=[],
     )
 
-    # Write module configuration to file
-    modules.write(filename="modules.yaml")
+    site.write(
+        path=Path.cwd(),
+    )

@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional, Dict, Any
 
 from spack_site_generator.utils.autodict import AutoDict
@@ -9,7 +10,7 @@ class Compilers(AbstractSiteConfig):
     """
     Represents a Spack site configuration for compilers.
 
-    This class allows managing a list of compiler configurations, ensuring they 
+    This class allows managing a list of compiler configurations, ensuring they
     are properly structured and formatted for Spack.
 
     Attributes:
@@ -20,7 +21,7 @@ class Compilers(AbstractSiteConfig):
         """
         Initialize the compiler configuration with a base structure.
 
-        The default configuration includes an override flag to ensure that 
+        The default configuration includes an override flag to ensure that
         compiler definitions take precedence in Spack.
         """
         self.config = AutoDict()
@@ -55,27 +56,32 @@ class Compilers(AbstractSiteConfig):
             environment (Optional[Dict[str, Any]]): Environment variables for the compiler.
             extra_rpaths (Optional[list[str]]): Additional library paths to be added to the RPATH.
         """
-        self.config["compilers"].append({
-            "compiler": {
-                "spec": spec,
-                "paths": paths,
-                "flags": flags,
-                "operating_system": operating_system,
-                "target": target,
-                "modules": modules,
-                "environment": environment,
-                "extra_rpaths": extra_rpaths,
+        self.config["compilers"].append(
+            {
+                "compiler": {
+                    "spec": spec,
+                    "paths": paths,
+                    "flags": flags,
+                    "operating_system": operating_system,
+                    "target": target,
+                    "modules": modules,
+                    "environment": environment,
+                    "extra_rpaths": extra_rpaths,
+                }
             }
-        })
+        )
 
-    def write(self, *, filename: str, spack_format: Optional[bool] = True) -> None:
+    def write(self, *, path: Path, spack_format: Optional[bool] = True) -> None:
         """
-        Write the compiler configuration to a YAML file.
+        Write the compiler configuration to a YAML file. If the configuration is empty,
+        no file will be written.
 
         Args:
-            filename (str): The file path where the configuration will be saved.
-            spack_format (Optional[bool]): Whether to format the YAML output in Spack style. 
+            path (str): The file path where the configuration will be saved.
+            spack_format (Optional[bool]): Whether to format the YAML output in Spack style.
                                            Defaults to True.
         """
-        with open(filename, "w") as f:
+        if self.config.empty():
+            return
+        with open(path, "w") as f:
             f.write(to_yaml(self.config.to_dict(), spack_format=spack_format))
