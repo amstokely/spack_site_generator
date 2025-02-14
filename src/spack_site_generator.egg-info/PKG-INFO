@@ -1,0 +1,9 @@
+Metadata-Version: 2.2
+Name: spack_site_generator
+Version: 0.1.0
+Summary: A minimal project for generating spack site configurations.
+Author: Andy Stokely
+License: MIT
+Description-Content-Type: text/markdown
+Requires-Dist: PyYAML
+Requires-Dist: pytest

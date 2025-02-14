@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spack_site_generator"
+version = "0.1.0"
+description = "A minimal project for generating spack site configurations."
+authors = [
+    { name = "Andy Stokely" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+dependencies = [
+    "PyYAML", "pytest"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
