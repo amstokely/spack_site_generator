@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
 
 
 class AbstractSiteConfig(ABC):
@@ -6,7 +7,7 @@ class AbstractSiteConfig(ABC):
     def write(
             self,
             *,
-            filename: str,
+            path: Path,
             spack_format: bool = True
     ) -> None:
         pass

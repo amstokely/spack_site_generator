@@ -56,3 +56,12 @@ class AutoDict(dict):
             key: (value.to_dict() if isinstance(value, AutoDict) else value)
             for key, value in self.items()
         }
+
+    def empty(self) -> bool:
+        """
+        Check if the AutoDict instance is empty.
+
+        Returns:
+            bool: True if the AutoDict is empty, False otherwise.
+        """
+        return not bool(self)

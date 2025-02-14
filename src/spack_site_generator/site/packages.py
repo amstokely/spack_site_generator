@@ -1,4 +1,5 @@
-from typing import List, Dict, Any
+from pathlib import Path
+from typing import List, Dict, Any, Optional
 
 from spack_site_generator.utils.autodict import AutoDict
 from spack_site_generator.utils.spack_yaml import to_yaml
@@ -9,7 +10,7 @@ class Packages(AbstractSiteConfig):
     """
     Represents the package configuration for a Spack site.
 
-    This class allows managing compiler definitions, external package configurations, 
+    This class allows managing compiler definitions, external package configurations,
     and provider mappings in Spack's package configuration system.
 
     Attributes:
@@ -33,7 +34,7 @@ class Packages(AbstractSiteConfig):
         """
         Add a provider mapping to the package configuration.
 
-        This method defines a provider (e.g., MPI, BLAS, LAPACK) that 
+        This method defines a provider (e.g., MPI, BLAS, LAPACK) that
         maps to a specific library and version.
 
         Args:
@@ -69,11 +70,12 @@ class Packages(AbstractSiteConfig):
         buildable: bool,
         modules: List[str],
         prefix: str,
+        override: bool,
     ) -> None:
         """
         Add an external package definition to the configuration.
 
-        This method defines an external package, specifying its spec, 
+        This method defines an external package, specifying its spec,
         installation prefix, and optional module dependencies.
 
         Args:
@@ -82,22 +84,29 @@ class Packages(AbstractSiteConfig):
             buildable (bool): Whether the package can be built from source.
             modules (List[str]): A list of modules required to use the package.
             prefix (str): The installation prefix of the package.
+            override (bool): Whether to override existing package
+            definitions.
         """
         package_entry = self.config[name]
+        package_entry["buildable"] = buildable
+        if override:
+            package_entry["override"] = True
         package_entry["externals"] = [{"spec": spec, "prefix": prefix}]
         if modules:
             package_entry["externals"][0]["modules"] = modules
-        package_entry["buildable"] = buildable
 
-    def write(self, *, filename: str, spack_format: bool = True) -> None:
+    def write(self, *, path: Path, spack_format: bool = True) -> None:
         """
-        Write the package configuration to a YAML file.
+        Write the package configuration to a YAML file. If the configuration is empty,
+        no file will be written.
 
         Args:
-            filename (str): The file path where the configuration will be saved.
-            spack_format (bool, optional): Whether to format the YAML output in Spack style. 
+            path (str): The file path where the configuration will be saved.
+            spack_format (bool, optional): Whether to format the YAML output in Spack style.
                                            Defaults to True.
         """
+        if self.config.empty():
+            return
         config_dict = {"packages": self.config.to_dict()}
-        with open(filename, "w") as file:
+        with open(path, "w") as file:
             file.write(to_yaml(config_dict, spack_format=spack_format))
