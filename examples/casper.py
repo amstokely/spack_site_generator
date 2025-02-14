@@ -15,7 +15,7 @@ Configuration includes:
 Usage:
     Run this script to generate Spack site configuration files:
     ```
-    python basic.py
+    python casper.py
     ```
 """
 
