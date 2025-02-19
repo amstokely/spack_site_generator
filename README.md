@@ -17,7 +17,7 @@
 Clone this repository and install the package:
 
 ```sh
-git clone https://github.com/amstokely/spack-site-generator.git
+git clone https://github.com/amstokely/spack_site_generator.git
 cd spack-site-generator
 pip install .
 ```
