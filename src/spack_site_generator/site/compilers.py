@@ -6,8 +6,7 @@ from spack_site_generator.utils.spack_yaml import to_yaml
 from spack_site_generator.site.abstract_site_config import AbstractSiteConfig
 
 
-class Compilers(
-    AbstractSiteConfig):
+class Compilers(AbstractSiteConfig):
     """
     Represents a Spack site configuration for compilers.
 
