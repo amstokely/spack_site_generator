@@ -44,3 +44,6 @@ pip install .
 ## Usage
 
 See the [examples directory](examples) for detailed usage examples.
+
+
+[![codecov](https://codecov.io/gh/amstokely/spack_site_generator/branch/master/graph/badge.svg)](https://codecov.io/gh/amstokely/spack_site_generator)
