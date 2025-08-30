@@ -12,7 +12,7 @@ authors = [
 license = { text = "MIT" }
 readme = "README.md"
 dependencies = [
-    "PyYAML", "pytest"
+    "PyYAML", "pytest", "pytest-cov"
 ]
 
 [tool.setuptools.packages.find]

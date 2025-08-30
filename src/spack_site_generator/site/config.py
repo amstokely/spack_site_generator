@@ -7,14 +7,6 @@ and cache paths. The configuration can then be written to a `config.yaml` file.
 
 Classes:
     Config: Handles the configuration of Spack's `config.yaml` file.
-
-Usage Example:
-    >>> from pathlib import Path
-    >>> config = Config()
-    >>> config.set_build_jobs(build_jobs=8)
-    >>> config.set_stage_paths(build_stage_path="/tmp/build_stage", test_stage_path="/tmp/test_stage")
-    >>> config.set_cache_paths(source_cache_path="/tmp/source_cache", misc_cache_path="/tmp/misc_cache")
-    >>> config.write(path=Path("config.yaml"))
 """
 
 from pathlib import Path

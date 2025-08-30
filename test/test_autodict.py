@@ -55,12 +55,15 @@ def test_overwrite_existing_key():
     assert d["x"] == 99
 
 
-def test_repr_and_str_consistency():
-    """String representation should show nested keys and values."""
+def test_repr_and_str_exposes_keys_and_values():
+    """String representation should include stored keys and values for visibility."""
     d = AutoDict()
     d["foo"]["bar"] = "baz"
+
     s = str(d)
-    assert "foo" in s and "bar" in s and "baz" in s
+    # Behavior: the representation should expose stored keys and values
+    for token in ("foo", "bar", "baz"):
+        assert token in s
 
 
 def test_nested_chain_assignment_and_lookup():

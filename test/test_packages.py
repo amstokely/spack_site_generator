@@ -39,8 +39,11 @@ def test_add_compiler(packages):
     assert packages.config["all"]["compiler"] == ["gcc@11.2.0", {"override": True}]
 
 
-def test_add_package(packages):
-    """Test that a package entry is correctly added."""
+import pytest
+
+@pytest.mark.parametrize("override", [False, True])
+def test_add_package(packages, override):
+    """Test that a package entry is correctly added with and without override."""
     packages.add_package(
         name="hdf5",
         spec="hdf5@1.12.0",
@@ -51,7 +54,7 @@ def test_add_package(packages):
             "headers": "/usr/local/include",
             "libs": "/usr/local/lib/libhdf5.so",
         },
-        override=False,
+        override=override,
     )
 
     assert "hdf5" in packages.config
@@ -67,6 +70,12 @@ def test_add_package(packages):
         }
     ]
     assert packages.config["hdf5"]["buildable"] is False
+
+    # Only assert the override flag when it is set
+    if override:
+        assert packages.config["hdf5"]["override"] is True
+    else:
+        assert "override" not in packages.config["hdf5"]
 
 
 def test_write_yaml(packages, tmp_path):
