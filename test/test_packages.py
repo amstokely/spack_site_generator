@@ -41,6 +41,7 @@ def test_add_compiler(packages):
 
 import pytest
 
+
 @pytest.mark.parametrize("override", [False, True])
 def test_add_package(packages, override):
     """Test that a package entry is correctly added with and without override."""

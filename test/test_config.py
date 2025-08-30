@@ -65,4 +65,3 @@ def test_write_yaml_creates_expected_file(config, tmp_path):
     assert data["config"]["misc_cache"] == "/path/to/misc"
     assert data["config"]["build_stage"] == "/path/to/build"
     assert data["config"]["test_stage"] == "/path/to/test"
-
