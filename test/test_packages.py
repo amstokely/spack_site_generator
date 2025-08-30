@@ -47,12 +47,24 @@ def test_add_package(packages):
         buildable=False,
         modules=["hdf5/1.12.0"],
         prefix="/usr/local/hdf5",
+        extra_attributes={
+            "headers": "/usr/local/include",
+            "libs": "/usr/local/lib/libhdf5.so",
+        },
         override=False,
     )
 
     assert "hdf5" in packages.config
     assert packages.config["hdf5"]["externals"] == [
-        {"spec": "hdf5@1.12.0", "prefix": "/usr/local/hdf5", "modules": ["hdf5/1.12.0"]}
+        {
+            "spec": "hdf5@1.12.0",
+            "prefix": "/usr/local/hdf5",
+            "modules": ["hdf5/1.12.0"],
+            "extra_attributes": {
+                "headers": "/usr/local/include",
+                "libs": "/usr/local/lib/libhdf5.so",
+            },
+        }
     ]
     assert packages.config["hdf5"]["buildable"] is False
 
@@ -72,6 +84,10 @@ def test_write_yaml(packages, tmp_path):
         buildable=False,
         modules=["hdf5/1.12.0"],
         prefix="/usr/local/hdf5",
+        extra_attributes={
+            "headers": "/usr/local/include",
+            "libs": "/usr/local/lib/libhdf5.so",
+        },
         override=False,
     )
 
@@ -85,3 +101,6 @@ def test_write_yaml(packages, tmp_path):
     assert "mpi" in data["packages"]
     assert "hdf5" in data["packages"]
     assert "compiler" in data["packages"]["all"]
+    assert "externals" in data["packages"]["hdf5"]
+    assert "modules" in data["packages"]["hdf5"]["externals"][0]
+    assert "extra_attributes" in data["packages"]["hdf5"]["externals"][0]

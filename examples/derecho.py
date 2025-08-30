@@ -64,6 +64,7 @@ if __name__ == "__main__":
             "libfabric/1.15.2.0",
             "cray-pals/1.2.11",
         ],
+        extra_attributes={},
         override=False,
     )
 
@@ -81,6 +82,7 @@ if __name__ == "__main__":
             "cray-mpich/8.1.25",
             "parallel-netcdf/1.12.3",
         ],
+        extra_attributes={},
         override=False,
     )
 
@@ -90,6 +92,7 @@ if __name__ == "__main__":
         prefix="/glade/u/apps/derecho/23.09/spack/opt/spack/netcdf/4.9.2/packages/netcdf-c/4.9.2/gcc/12.2.0/3gy6",
         spec="netcdf-c@4.9.2",
         modules=["ncarenv/23.09", "gcc/12.2.0", "netcdf/4.9.2"],
+        extra_attributes={},
         override=False,
     )
 
@@ -99,6 +102,7 @@ if __name__ == "__main__":
         prefix="/glade/u/apps/derecho/23.09/spack/opt/spack/netcdf/4.9.2/packages/netcdf-fortran/4.6.1/gcc/12.2.0/7czy",
         spec="netcdf-fortran@4.6.1",
         modules=["ncarenv/23.09", "gcc/12.2.0", "netcdf/4.9.2"],
+        extra_attributes={},
         override=False,
     )
 
@@ -108,6 +112,7 @@ if __name__ == "__main__":
         prefix="/glade/u/apps/derecho/23.09/spack/opt/spack/netcdf/4.9.2/packages/netcdf-cxx4/4.3.1/gcc/12.2.0/i4z2",
         spec="netcdf-cxx4@4.3.1",
         modules=["ncarenv/23.09", "gcc/12.2.0", "netcdf/4.9.2"],
+        extra_attributes={},
         override=False,
     )
 

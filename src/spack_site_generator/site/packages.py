@@ -70,23 +70,36 @@ class Packages(AbstractSiteConfig):
         buildable: bool,
         modules: List[str],
         prefix: str,
+        extra_attributes: Dict[str, str],
         override: bool,
     ) -> None:
         """
-        Add an external package definition to the configuration.
+        Add an external package definition to the site configuration.
 
-        This method defines an external package, specifying its spec,
-        installation prefix, and optional module dependencies.
+        This method registers a package under ``packages.yaml``, including its
+        spec string, installation prefix, module dependencies, and optional
+        extra attributes. It is primarily used to describe external packages
+        (e.g., system compilers, MPI libraries) that Spack should not build
+        from source. If ``override`` is True, any existing definition for the
+        package will be replaced.
 
         Args:
-            name (str): The name of the package.
-            spec (str): The package specification (e.g., "hdf5@1.10.7").
-            buildable (bool): Whether the package can be built from source.
-            modules (List[str]): A list of modules required to use the package.
-            prefix (str): The installation prefix of the package.
-            override (bool): Whether to override existing package
-            definitions.
+            name (str): Logical package name (e.g., "openmpi").
+            spec (str): Spack spec string with version and compiler (e.g.,
+                "openmpi@5.0.5%gcc@11.4.0").
+            buildable (bool): Whether Spack may build this package from source.
+                Use False for system-installed externals.
+            modules (List[str]): Module names that must be loaded to use this
+                package (e.g., ["openmpi/5.0.5"]).
+            prefix (str): Absolute installation path of the package.
+            extra_attributes (Dict[str, str]): Additional configuration fields
+                for the external package. Common keys include:
+                    - "headers": Path to the package's include directory.
+                    - "libs": Path to the main library file or directory.
+            override (bool): If True, replace any existing package definition
+                for this name in the configuration.
         """
+
         package_entry = self.config[name]
         package_entry["buildable"] = buildable
         if override:
@@ -94,6 +107,8 @@ class Packages(AbstractSiteConfig):
         package_entry["externals"] = [{"spec": spec, "prefix": prefix}]
         if modules:
             package_entry["externals"][0]["modules"] = modules
+        if extra_attributes:
+            package_entry["externals"][0]["extra_attributes"] = extra_attributes
 
     def write(self, *, path: Path, spack_format: bool = True) -> None:
         """
