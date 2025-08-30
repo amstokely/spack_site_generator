@@ -45,6 +45,7 @@ if __name__ == "__main__":
         spec="openmpi@4.1.6%gcc@12.2.0+cuda~cxx~cxx_exceptions~java+lustre~memchecker+pmi+static~wrapper-rpath fabrics=ucx schedulers=tm",
         prefix="/glade/u/apps/casper/23.10/spack/opt/spack/openmpi/4.1.6/gcc/12.2.0/yia4",  # Installation path
         modules=["openmpi/4.1.6", "ucx/1.14.1", "cuda/12.2.0"],  # Associated modules
+        extra_attributes={},
         override=False,
     )
 
@@ -55,6 +56,7 @@ if __name__ == "__main__":
         spec="autoconf@2.71",
         prefix="/glade/u/apps/casper/23.10/opt/view",
         modules=[],
+        extra_attributes={},
         override=False,
     )
 
@@ -65,6 +67,7 @@ if __name__ == "__main__":
         spec="ecflow@5.8.4+ui+static_boost",
         prefix="/glade/work/epicufsrt/contrib/spack-stack/casper/ecflow-5.8.4",  # Installation path
         modules=["ecflow/5.8.4"],  # Associated module
+        extra_attributes={},
         override=True,  # Ensure this package setting overrides others
     )
 

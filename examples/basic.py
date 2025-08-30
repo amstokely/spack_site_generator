@@ -41,6 +41,7 @@ if __name__ == "__main__":
         buildable=False,
         prefix="/usr",
         modules=[],
+        extra_attributes={},
         override=False,
     )
 

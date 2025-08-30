@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from pathlib import Path
 
+
 class AbstractSiteConfig(ABC):
     """
     Abstract base class for all site configuration components.
